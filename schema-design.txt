@@ -1,0 +1,81 @@
+ANNALAKSHMI DATA MANAGEMENT SYSTEM - DATABASE SCHEMA DESIGN
+
+
+Table: annalakshmis
+--------------------
+
+Field (as per brief)     | Column name             | Type            | Constraints                |
+---------------------------------------------------------------------------------------------------
+Full Name                | full_name                | String(150)     | Not Null                  |
+Mobile Number            | mobile_number            | String(15)      | Not Null, Unique          |
+Email Address            | email                    | String(150)     | Nullable                  |
+Residential Address      | address                  | String(300)     | Not Null                  |
+Area / Locality          | area                     | String(100)     | Not Null                  |
+City                     | city                     | String(100)     | Not Null                  |
+State                    | state                    | String(100)     | Not Null                  |
+PIN Code                 | pin_code                 | String(10)      | Not Null                  |
+Cuisine Specialization   | cuisine_specialization   | String(150)     | Not Null                  |
+Veg / Non-Veg            | veg_or_nonveg            | String(10)      | Not Null                  |
+Signature Dishes         | signature_dishes         | String(500)     | Nullable                  |
+Available Timings        | available_timings        | String(200)     | Nullable                  |
+Maximum Orders Per Day   | max_orders_per_day       | Integer         | Not Null, default 10      |
+Date Joined              | date_joined              | Date            | Not Null                  |
+Current Status           | status                   | String(10)      | Not Null, default "active"|
+
+
+Additional System Fields
+--------------------------------------------------------------------------------
+id           | Integer   | Primary Key, autoincrement        | Every table needs a unique
+             |           |                                   | identifier - used in URLs like
+             |           |                                   | GET /annalakshmis/{id}
+created_at   | DateTime  | Not Null, default now()           | Basic audit trail - when the
+             |           |                                   | record was first added
+
+
+Enum-style Fields (validate in Pydantic schemas, not just the DB)
+------------------------------------------------------------------------
+veg_or_nonveg  : "veg" | "non-veg"
+status         : "active" | "inactive"
+
+
+Potential Indexes 
+--------------------------------------------------------------------------
+- mobile_number  -> UNIQUE index (supports "search by mobile number" + stops
+                    duplicate homemaker entries)
+- area           -> regular index (supports "filter by area")
+- status         -> regular index (supports "filter by status" + dashboard counts)
+
+
+Sample Record (for seed data / testing)
+-----------------------------------------
+{
+  "full_name": "Lakshmi Narayanan",
+  "mobile_number": "9876543210",
+  "email": "lakshmi.n@example.com",
+  "address": "12, 4th Cross, Jayanagar",
+  "area": "Jayanagar",
+  "city": "Bangalore",
+  "state": "Karnataka",
+  "pin_code": "560041",
+  "cuisine_specialization": "South Indian",
+  "veg_or_nonveg": "veg",
+  "signature_dishes": "Idli, Sambar, Coconut Chutney",
+  "available_timings": "8 AM - 12 PM, 6 PM - 9 PM",
+  "max_orders_per_day": 15,
+  "date_joined": "2026-01-10",
+  "status": "active"
+}
+
+
+Assumptions Made
+--------------------------
+1. All fields under "Add New Annalakshmi" in the brief are treated as
+   required (Not Null) except Email Address, Signature Dishes, and
+   Available Timings, since a homemaker may reasonably not have all three
+   at onboarding time.
+2. pin_code and mobile_number are stored as strings, not integers, since
+   they are identifiers, not numeric quantities.
+3. signature_dishes is a single comma-separated string in V1 rather than
+   a separate related table - sufficient for display and substring search.
+4. id and created_at are added for technical necessities (primary
+   key + basic audit trail)
