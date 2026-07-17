@@ -1,6 +1,9 @@
 fastapi
 uvicorn
 sqlalchemy
+email-validator
 pydantic
 python-multipart
 jinja2
+pytest
+httpx2

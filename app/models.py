@@ -22,3 +22,4 @@ class Annalakshmi(Base):
     date_joined = Column(Date, nullable=False)
     status = Column(String(10), nullable=False, default="active", index=True)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())

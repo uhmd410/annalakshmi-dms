@@ -24,6 +24,8 @@ def get_all_annalakshmis(
     mobile: str = None,
     area: str = None,
     status: str = None,
+    page: int = 1,
+    page_size: int = 10,
 ):
     query = db.query(models.Annalakshmi)
 
@@ -36,7 +38,14 @@ def get_all_annalakshmis(
     if status:
         query = query.filter(models.Annalakshmi.status == status)
 
-    return query.all()
+    total = query.count()
+    items = (
+        query.order_by(models.Annalakshmi.id)
+        .offset((page - 1) * page_size)
+        .limit(page_size)
+        .all()
+    )
+    return items, total
 
 def update_annalakshmi(db: Session, id: int, data: schemas.AnnalakshmiUpdate):
     record = get_annalakshmi(db, id)
