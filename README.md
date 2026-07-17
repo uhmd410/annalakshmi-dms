@@ -48,7 +48,7 @@ annalakshmi-dms/
 
 ```bash
 # 1. Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/uhmd410/annalakshmi-dms.git
 cd annalakshmi-dms
 
 # 2. Create and activate a virtual environment
