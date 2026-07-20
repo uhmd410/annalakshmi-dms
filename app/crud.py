@@ -24,6 +24,7 @@ def get_all_annalakshmis(
     mobile: str = None,
     area: str = None,
     status: str = None,
+    food_type: str = None,
     page: int = 1,
     page_size: int = 10,
 ):
@@ -37,6 +38,8 @@ def get_all_annalakshmis(
         query = query.filter(models.Annalakshmi.area.ilike(f"%{area}%"))
     if status:
         query = query.filter(models.Annalakshmi.status == status)
+    if food_type:
+        query = query.filter(models.Annalakshmi.veg_or_nonveg == food_type)
 
     total = query.count()
     items = (

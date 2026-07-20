@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}View Records — Annalakshmi DMS{% endblock %}
+
+{% block content %}
+<input type="hidden" id="currentPage" value="records">
+
+<div class="page-header d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 fw-bold mb-1 d-inline-block me-2">View Records</h1>
+        <span class="badge bg-primary rounded-pill align-text-top" id="totalBadge">0</span>
+    </div>
+    <a href="/pages/add" class="btn btn-primary btn-sm d-md-none">
+        <i class="bi bi-plus-lg"></i>
+    </a>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar mb-4 p-3">
+    <div class="row g-3 w-100">
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" id="searchInput" placeholder="Search by name or mobile..." aria-label="Search records">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" id="areaFilter" placeholder="Search by area..." aria-label="Filter by Area">
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" id="foodTypeFilter" aria-label="Filter by Food Type">
+                <option value="">All Types</option>
+                <option value="veg">Veg</option>
+                <option value="non-veg">Non-Veg</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" id="statusFilter" aria-label="Filter by Status">
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-outline-secondary w-100" id="clearFilters">
+                <i class="bi bi-x-circle me-1"></i>Clear
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Skeleton -->
+<div id="tableLoading" class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-0">
+        <div class="p-3 border-bottom"><div class="skeleton shimmer" style="height: 20px; width: 30%; border-radius: 4px;"></div></div>
+        <div class="p-3 border-bottom"><div class="skeleton shimmer" style="height: 20px; width: 100%; border-radius: 4px;"></div></div>
+        <div class="p-3 border-bottom"><div class="skeleton shimmer" style="height: 20px; width: 100%; border-radius: 4px;"></div></div>
+        <div class="p-3 border-bottom"><div class="skeleton shimmer" style="height: 20px; width: 100%; border-radius: 4px;"></div></div>
+        <div class="p-3 border-bottom"><div class="skeleton shimmer" style="height: 20px; width: 95%; border-radius: 4px;"></div></div>
+        <div class="p-3"><div class="skeleton shimmer" style="height: 20px; width: 90%; border-radius: 4px;"></div></div>
+    </div>
+</div>
+
+<!-- Data Table -->
+<div class="card border-0 shadow-sm mb-4" id="recordsTable" style="display:none;">
+    <div class="table-responsive">
+        <table class="table data-table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th scope="col" class="ps-4">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col" class="d-none d-md-table-cell">Mobile</th>
+                    <th scope="col" class="d-none d-lg-table-cell">Area</th>
+                    <th scope="col" class="d-none d-lg-table-cell">Cuisine</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" class="text-end pe-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="recordsBody">
+                <!-- Rows populated by JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Empty State -->
+<div id="emptyState" class="empty-state text-center py-5 my-4 bg-white rounded shadow-sm" style="display:none;">
+    <i class="bi bi-search text-warm-muted mb-3" style="font-size: 56px; opacity: 0.4;"></i>
+    <h3 class="empty-state__title h5 fw-bold">No records found</h3>
+    <p class="empty-state__subtitle text-warm-muted mb-0">Try adjusting your search or filters</p>
+</div>
+
+<!-- Pagination Controls -->
+<div id="paginationControls" class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+    <!-- Pagination populated by JS -->
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/records.js"></script>
+{% endblock %}

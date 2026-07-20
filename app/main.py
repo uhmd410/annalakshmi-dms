@@ -1,11 +1,11 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.database import Base, engine
 from app import models
-from app.routers import annalakshmi, dashboard
+from app.routers import annalakshmi, dashboard, pages
 
 Base.metadata.create_all(bind=engine)
 
@@ -40,7 +40,12 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(annalakshmi.router)
 app.include_router(dashboard.router)
+app.include_router(pages.router)
 
 @app.get("/")
+def root_redirect():
+    return RedirectResponse(url="/pages/dashboard", status_code=302)
+
+@app.get("/health")
 def health_check():
     return {"status": "ok", "message": "Annalakshmi DMS is running"}

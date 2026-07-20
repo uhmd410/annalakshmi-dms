@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Edit — Annalakshmi DMS{% endblock %}
+
+{% block content %}
+<input type="hidden" id="currentPage" value="records">
+<input type="hidden" id="recordId" value="{{ record_id }}">
+
+<div class="page-header mb-4 d-flex align-items-center">
+    <a href="/pages/records" class="btn btn-link text-decoration-none p-0 me-3 fs-5 text-warm-muted hover-primary">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+    <div>
+        <h1 class="h3 fw-bold mb-0">Edit Annalakshmi <span id="editNameDisplay" class="text-primary"></span></h1>
+        <p class="subtitle mb-0">Update chef information</p>
+    </div>
+</div>
+
+<!-- Loading Skeleton -->
+<div id="formLoading" class="mb-5">
+    <div class="skeleton-card shimmer" style="height: 600px; border-radius: 12px;"></div>
+</div>
+
+<!-- Form Content -->
+<div class="card form-section shadow-sm border-0 mb-5" id="formContent" style="display:none;">
+    <div class="card-body p-4 p-md-5">
+        <form id="editForm" novalidate>
+            
+            <!-- Section 1: Personal Information -->
+            <h4 class="section-header mb-4 pb-2 border-bottom text-primary">
+                <i class="bi bi-person me-2"></i>Personal Information
+            </h4>
+            <div class="row g-3 mb-5">
+                <div class="col-md-6">
+                    <label for="full_name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" required minlength="2" maxlength="150">
+                    <div class="invalid-feedback">Please provide a valid full name (2–150 characters).</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="mobile_number" class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="mobile_number" name="mobile_number" required pattern="^[6-9]\d{9}$" maxlength="10">
+                    <div class="form-text">10 digits starting with 6-9</div>
+                    <div class="invalid-feedback">Must be a valid 10-digit mobile number starting with 6-9.</div>
+                </div>
+                <div class="col-md-12">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                    <div class="form-text">Optional</div>
+                    <div class="invalid-feedback">Please provide a valid email address.</div>
+                </div>
+            </div>
+
+            <!-- Section 2: Address Details -->
+            <h4 class="section-header mb-4 pb-2 border-bottom text-primary">
+                <i class="bi bi-geo-alt me-2"></i>Address Details
+            </h4>
+            <div class="row g-3 mb-5">
+                <div class="col-12">
+                    <label for="address" class="form-label">Full Address <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="address" name="address" rows="3" required minlength="5" maxlength="300"></textarea>
+                    <div class="invalid-feedback">Please provide a complete address (5–300 characters).</div>
+                </div>
+                <div class="col-md-4">
+                    <label for="area" class="form-label">Area <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="area" name="area" required minlength="2" maxlength="100">
+                    <div class="invalid-feedback">Please specify the area.</div>
+                </div>
+                <div class="col-md-4">
+                    <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="city" name="city" required minlength="2" maxlength="100">
+                    <div class="invalid-feedback">Please specify the city.</div>
+                </div>
+                <div class="col-md-4">
+                    <label for="state" class="form-label">State <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="state" name="state" required minlength="2" maxlength="100">
+                    <div class="invalid-feedback">Please specify the state.</div>
+                </div>
+                <div class="col-md-4">
+                    <label for="pin_code" class="form-label">PIN Code <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="pin_code" name="pin_code" required pattern="^\d{6}$" maxlength="6">
+                    <div class="form-text">6-digit PIN code</div>
+                    <div class="invalid-feedback">Must be a valid 6-digit PIN code.</div>
+                </div>
+            </div>
+
+            <!-- Section 3: Professional Details -->
+            <h4 class="section-header mb-4 pb-2 border-bottom text-primary">
+                <i class="bi bi-briefcase me-2"></i>Professional Details
+            </h4>
+            <div class="row g-3 mb-5">
+                <div class="col-md-6">
+                    <label for="cuisine_specialization" class="form-label">Cuisine Specialization <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="cuisine_specialization" name="cuisine_specialization" required minlength="2" maxlength="150">
+                    <div class="invalid-feedback">Please specify the cuisine specialization.</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="veg_or_nonveg" class="form-label">Food Type <span class="text-danger">*</span></label>
+                    <select class="form-select" id="veg_or_nonveg" name="veg_or_nonveg" required>
+                        <option value="">Choose...</option>
+                        <option value="veg">Vegetarian</option>
+                        <option value="non-veg">Non-Vegetarian</option>
+                    </select>
+                    <div class="invalid-feedback">Please select the food type.</div>
+                </div>
+                <div class="col-12">
+                    <label for="signature_dishes" class="form-label">Signature Dishes</label>
+                    <textarea class="form-control" id="signature_dishes" name="signature_dishes" rows="2" maxlength="500"></textarea>
+                    <div class="form-text">Optional — comma separated</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="available_timings" class="form-label">Available Timings</label>
+                    <input type="text" class="form-control" id="available_timings" name="available_timings" maxlength="200">
+                    <div class="form-text">e.g. 8 AM – 12 PM</div>
+                </div>
+            </div>
+
+            <!-- Section 4: Operations -->
+            <h4 class="section-header mb-4 pb-2 border-bottom text-primary">
+                <i class="bi bi-gear me-2"></i>Operations
+            </h4>
+            <div class="row g-3 mb-5">
+                <div class="col-md-4">
+                    <label for="max_orders_per_day" class="form-label">Max Orders per Day</label>
+                    <input type="number" class="form-control" id="max_orders_per_day" name="max_orders_per_day" min="1" max="200">
+                    <div class="invalid-feedback">Must be between 1 and 200.</div>
+                </div>
+                <div class="col-md-4">
+                    <label for="date_joined" class="form-label">Date Joined <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="date_joined" name="date_joined" required>
+                    <div class="invalid-feedback">Date joined is required and cannot be in the future.</div>
+                </div>
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a status.</div>
+                </div>
+            </div>
+
+            <!-- Submit Actions -->
+            <div class="d-flex gap-3">
+                <button type="submit" id="submitBtn" class="btn btn-primary px-4 py-2 fw-semibold">
+                    <i class="bi bi-check-circle me-2"></i>Save Changes
+                </button>
+                <a href="/pages/records" class="btn btn-outline-secondary px-4 py-2 fw-semibold">Back to Records</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/form.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('date_joined');
+        if (dateInput) {
+            dateInput.setAttribute('max', new Date().toISOString().split('T')[0]);
+        }
+    });
+</script>
+{% endblock %}

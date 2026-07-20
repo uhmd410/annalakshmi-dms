@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Profile — Annalakshmi DMS{% endblock %}
+
+{% block content %}
+<input type="hidden" id="currentPage" value="records">
+<input type="hidden" id="recordId" value="{{ record_id }}">
+
+<div class="page-header mb-4 d-flex align-items-center">
+    <a href="/pages/records" class="btn btn-link text-decoration-none p-0 me-3 fs-5 text-warm-muted hover-primary">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+    <h1 class="h3 fw-bold mb-0">Chef Profile</h1>
+</div>
+
+<!-- Loading Skeleton -->
+<div id="profileLoading" class="mb-4">
+    <div class="skeleton-card shimmer" style="height: 400px; border-radius: 12px;"></div>
+</div>
+
+<!-- Profile Content -->
+<div id="profileContent" style="display:none;">
+    <div class="card profile-card shadow-sm border-0 mb-4 overflow-hidden">
+        <!-- Header Section -->
+        <div class="text-white p-4 p-md-5 position-relative" style="background: linear-gradient(135deg, #E8824C 0%, #d86930 100%);">
+            <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
+                <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 80px; height: 80px; font-size: 2.5rem; flex-shrink:0;">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                    <h2 id="profileName" class="fw-bold mb-2">Loading...</h2>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span id="profileStatus" class="badge bg-white bg-opacity-25 border border-white border-opacity-50 px-3 py-2 rounded-pill fw-medium"></span>
+                        <span id="profileVeg" class="badge bg-white bg-opacity-25 border border-white border-opacity-50 px-3 py-2 rounded-pill fw-medium"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Body Section -->
+        <div class="card-body p-4 p-md-5">
+            <div class="row g-4">
+                
+                <!-- Contact Info -->
+                <div class="col-md-6 mb-4">
+                    <h5 class="text-primary fw-bold mb-3 border-bottom pb-2"><i class="bi bi-person-lines-fill me-2"></i>Contact Information</h5>
+                    
+                    <div class="profile-field mb-3">
+                        <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Full Name</div>
+                        <div class="profile-field__value fw-medium fs-6" id="field-fullname">—</div>
+                    </div>
+                    
+                    <div class="profile-field mb-3">
+                        <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Mobile Number</div>
+                        <div class="profile-field__value fw-medium fs-6" id="field-mobile">—</div>
+                    </div>
+                    
+                    <div class="profile-field mb-3">
+                        <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Email Address</div>
+                        <div class="profile-field__value fw-medium fs-6" id="field-email">—</div>
+                    </div>
+                </div>
+
+                <!-- Professional Details -->
+                <div class="col-md-6 mb-4">
+                    <h5 class="text-primary fw-bold mb-3 border-bottom pb-2"><i class="bi bi-briefcase-fill me-2"></i>Professional Details</h5>
+                    
+                    <div class="profile-field mb-3">
+                        <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Cuisine Specialization</div>
+                        <div class="profile-field__value fw-medium fs-6" id="field-cuisine">—</div>
+                    </div>
+                    
+                    <div class="profile-field mb-3">
+                        <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Food Type</div>
+                        <div class="profile-field__value fw-medium fs-6" id="field-veg">—</div>
+                    </div>
+                    
+                    <div class="profile-field mb-3">
+                        <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Signature Dishes</div>
+                        <div class="profile-field__value fw-medium fs-6" id="field-dishes">—</div>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="col-12 mb-4">
+                    <h5 class="text-primary fw-bold mb-3 border-bottom pb-2"><i class="bi bi-geo-alt-fill me-2"></i>Address Details</h5>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-12 profile-field mb-3">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Full Address</div>
+                            <div class="profile-field__value fw-medium fs-6" id="field-address">—</div>
+                        </div>
+                        <div class="col-md-3 profile-field">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Area</div>
+                            <div class="profile-field__value fw-medium fs-6" id="field-area">—</div>
+                        </div>
+                        <div class="col-md-3 profile-field">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">City</div>
+                            <div class="profile-field__value fw-medium fs-6" id="field-city">—</div>
+                        </div>
+                        <div class="col-md-3 profile-field">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">State</div>
+                            <div class="profile-field__value fw-medium fs-6" id="field-state">—</div>
+                        </div>
+                        <div class="col-md-3 profile-field">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">PIN Code</div>
+                            <div class="profile-field__value fw-medium fs-6" id="field-pincode">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operations -->
+                <div class="col-12">
+                    <h5 class="text-primary fw-bold mb-3 border-bottom pb-2"><i class="bi bi-gear-fill me-2"></i>Operations</h5>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-3 profile-field">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Available Timings</div>
+                            <div class="profile-field__value fw-medium fs-6" id="field-timings">—</div>
+                        </div>
+                        <div class="col-md-3 profile-field">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Max Orders / Day</div>
+                            <div class="profile-field__value fw-medium fs-6" id="field-maxorders">—</div>
+                        </div>
+                        <div class="col-md-3 profile-field">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Date Joined</div>
+                            <div class="profile-field__value fw-medium fs-6" id="field-datejoined">—</div>
+                        </div>
+                        <div class="col-md-3 profile-field">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Current Status</div>
+                            <div class="profile-field__value fw-medium fs-6" id="field-status">—</div>
+                        </div>
+                        <div class="col-md-6 profile-field mt-4">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Record Created</div>
+                            <div class="profile-field__value fs-6 text-warm-muted" id="field-createdat">—</div>
+                        </div>
+                        <div class="col-md-6 profile-field mt-4">
+                            <div class="profile-field__label text-warm-muted small fw-semibold text-uppercase">Last Updated</div>
+                            <div class="profile-field__value fs-6 text-warm-muted" id="field-updatedat">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex flex-wrap gap-3">
+        <a id="editLink" href="#" class="btn btn-primary px-4 fw-semibold">
+            <i class="bi bi-pencil me-2"></i>Edit
+        </a>
+        <button id="archiveBtn" class="btn btn-outline-danger px-4 fw-semibold">
+            <i class="bi bi-archive me-2"></i>Archive
+        </button>
+        <a href="/pages/records" class="btn btn-outline-secondary px-4 fw-semibold ms-auto">
+            Back to Records
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/profile.js"></script>
+{% endblock %}

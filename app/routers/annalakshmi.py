@@ -15,11 +15,12 @@ def list_all(
     mobile: str = None,
     area: str = None,
     status: str = None,
+    food_type: str = None,
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
     db: Session = Depends(get_db),
 ):
-    items, total = crud.get_all_annalakshmis(db, name, mobile, area, status, page, page_size)
+    items, total = crud.get_all_annalakshmis(db, name, mobile, area, status, food_type, page, page_size)
     total_pages = (total + page_size - 1) // page_size if total else 0
     return {
         "total": total,
