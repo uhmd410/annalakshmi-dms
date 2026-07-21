@@ -2,7 +2,6 @@
 
 Internal data management system for **Oota.app**, built for Thorsignia. Enables the Operations Team to store, search, filter, update, and archive information about Annalakshmis (home-cooked meal providers).
 
-> **Status:** Backend complete (CRUD, validation, pagination, error handling, tests). Frontend in progress.
 
 ---
 
@@ -15,7 +14,7 @@ Internal data management system for **Oota.app**, built for Thorsignia. Enables 
 | Validation | Pydantic v2 |
 | Database | SQLite |
 | Testing | pytest + httpx (FastAPI TestClient) |
-| Frontend (planned) | Bootstrap 5, vanilla JS, Jinja2 |
+| Frontend | Bootstrap 5, vanilla JS, Jinja2 |
 
 ---
 
@@ -32,8 +31,8 @@ annalakshmi-dms/
 │   ├── routers/
 │   │   ├── annalakshmi.py   # CRUD + list/filter/paginate routes
 │   │   └── dashboard.py     # Summary stats route
-│   ├── static/               # CSS/JS (frontend, in progress)
-│   └── templates/            # Jinja2 HTML pages (frontend, in progress)
+│   ├── static/               # CSS/JS
+│   └── templates/            # Jinja2 HTML pages
 ├── tests/
 │   └── test_annalakshmi.py  # End-to-end API tests
 ├── seed.py                   # Sample data seeding script
