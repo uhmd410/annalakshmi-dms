@@ -1,6 +1,6 @@
-from pydantic import BaseModel, EmailStr, Field, field_validator, ConfigDict
+from pydantic import BaseModel, EmailStr, Field, field_validator, field_serializer, ConfigDict
 from typing import Optional, Literal
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 import re
 
 VegStatus = Literal["veg", "non-veg"]
@@ -112,6 +112,12 @@ class AnnalakshmiResponse(AnnalakshmiBase):
     updated_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+    @field_serializer("created_at", "updated_at")
+    def serialize_as_utc(self, value: datetime) -> str:
+        if value.tzinfo is None:
+            value = value.replace(tzinfo=timezone.utc)
+        return value.isoformat()
 
 
 class PaginatedAnnalakshmiResponse(BaseModel):
