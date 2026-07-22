@@ -2,6 +2,7 @@
 
 Internal data management system for **Oota.app**, built for Thorsignia. Enables the Operations Team to store, search, filter, update, and archive information about Annalakshmis (home-cooked meal providers).
 
+> **Status:** Backend and frontend complete. Final QA and polish in progress.
 
 ---
 
@@ -135,9 +136,9 @@ Returns `200` with the created record (including `id`, `created_at`, `updated_at
 
 ### List / search / filter / paginate
 ```
-GET /annalakshmis/?name=&mobile=&area=&status=&page=1&page_size=10
+GET /annalakshmis/?name=&mobile=&area=&status=&food_type=&page=1&page_size=10
 ```
-All query params are optional and combinable. `page` and `page_size` default to `1` and `10` (`page_size` capped at 100).
+All query params are optional and combinable. `food_type` filters on `veg_or_nonveg` (`veg` or `non-veg`). `page` and `page_size` default to `1` and `10` (`page_size` capped at 100).
 
 **Response:**
 ```json
@@ -149,6 +150,12 @@ All query params are optional and combinable. `page` and `page_size` default to 
   "items": [ { "id": 1, "full_name": "...", "...": "..." } ]
 }
 ```
+
+### Export as CSV
+```
+GET /annalakshmis/export?name=&mobile=&area=&status=&food_type=
+```
+Accepts the same optional filters as the list endpoint (no pagination — always exports every matching record). Returns a downloadable `.csv` file (`Content-Disposition: attachment`) with columns matching the schema, including `id`, `created_at`, and `updated_at`. Filename is timestamped, e.g. `annalakshmis_export_2026-07-21.csv`.
 
 ### Get a single record
 ```
@@ -211,3 +218,6 @@ Tests run against an isolated `test.db`, torn down after each test — your dev 
 4. Archiving is a soft delete (status flip); records are never physically removed.
 5. `date_joined` cannot be set in the future, since it represents an actual onboarding event.
 6. Pagination defaults to 10 records per page, capped at 100 per request.
+7. `created_at`/`updated_at` are stored and returned in UTC (explicitly tagged in the API response); the frontend converts and displays them in IST (`Asia/Kolkata`) for the Ops team, since that's the operating timezone.
+8. CSV export (stretch goal) always exports every record matching the current filters, ignoring pagination — the assumption being that an export is meant to capture a full filtered dataset, not just the visible page.
+9. During QA, it was found that `GET /annalakshmis/export` didn't accept the `food_type` query param. Fixed by adding `food_type` to the export endpoint's filters as well, verified post-fix.
