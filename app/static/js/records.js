@@ -21,31 +21,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyState        = document.getElementById('emptyState');
     const paginationControls = document.getElementById('paginationControls');
     const totalBadge        = document.getElementById('totalBadge');
+    const exportCsvBtn = document.getElementById('exportCsvBtn');
 
 
 
     // ── Main Fetch ──────────────────────────────────────────
-    async function fetchRecords() {
-        // Show loading, hide others
-        tableLoading.style.display = '';
-        recordsTable.style.display = 'none';
-        emptyState.style.display   = 'none';
-        paginationControls.innerHTML = '';
-
-        // Build query params
+    function buildFilterParams() {
         const params = new URLSearchParams();
         const q = searchInput.value.trim();
         if (q) {
-            // If the query is all digits, search by mobile; otherwise name
             if (/^\d+$/.test(q)) {
                 params.set('mobile', q);
             } else {
                 params.set('name', q);
             }
         }
-        if (areaFilter.value)   params.set('area', areaFilter.value);
+        if (areaFilter.value)     params.set('area', areaFilter.value);
         if (foodTypeFilter.value) params.set('food_type', foodTypeFilter.value);
-        if (statusFilter.value) params.set('status', statusFilter.value);
+        if (statusFilter.value)   params.set('status', statusFilter.value);
+        return params;
+    }
+
+    async function fetchRecords() {
+        tableLoading.style.display = '';
+        recordsTable.style.display = 'none';
+        emptyState.style.display   = 'none';
+        paginationControls.innerHTML = '';
+
+        const params = buildFilterParams();
         params.set('page', currentPage);
         params.set('page_size', PAGE_SIZE);
 
@@ -232,6 +235,13 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPage = 1;
         fetchRecords();
     });
+
+    if (exportCsvBtn) {
+        exportCsvBtn.addEventListener('click', () => {
+            const params = buildFilterParams();
+            window.location.href = `/annalakshmis/export?${params.toString()}`;
+        });
+    }
 
     // ── Init ────────────────────────────────────────────────
     fetchRecords();

@@ -90,3 +90,23 @@ def get_dashboard_summary(db: Session):
     inactive = db.query(models.Annalakshmi).filter(models.Annalakshmi.status == "inactive").count()
     return {"total": total, "active": active, "inactive": inactive}
 
+def get_all_annalakshmis_for_export(
+    db: Session,
+    name: str = None,
+    mobile: str = None,
+    area: str = None,
+    status: str = None,
+    food_type: str = None,
+):
+    query = db.query(models.Annalakshmi)
+    if name:
+        query = query.filter(models.Annalakshmi.full_name.ilike(f"%{name}%"))
+    if mobile:
+        query = query.filter(models.Annalakshmi.mobile_number.ilike(f"%{mobile}%"))
+    if area:
+        query = query.filter(models.Annalakshmi.area.ilike(f"%{area}%"))
+    if status:
+        query = query.filter(models.Annalakshmi.status == status)
+    if food_type:
+        query = query.filter(models.Annalakshmi.veg_or_nonveg == food_type)
+    return query.order_by(models.Annalakshmi.id).all()

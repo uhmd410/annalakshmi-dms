@@ -10,9 +10,14 @@
         <h1 class="h3 fw-bold mb-1 d-inline-block me-2">View Records</h1>
         <span class="badge bg-primary rounded-pill align-text-top" id="totalBadge">0</span>
     </div>
-    <a href="/pages/add" class="btn btn-primary btn-sm d-md-none">
-        <i class="bi bi-plus-lg"></i>
-    </a>
+    <div class="d-flex gap-2">
+        <button class="btn btn-outline-primary btn-sm d-none d-md-inline-flex align-items-center" id="exportCsvBtn">
+            <i class="bi bi-download me-2"></i>Export CSV
+        </button>
+        <a href="/pages/add" class="btn btn-primary btn-sm d-md-none">
+            <i class="bi bi-plus-lg"></i>
+        </a>
+    </div>
 </div>
 
 <!-- Filter Bar -->
