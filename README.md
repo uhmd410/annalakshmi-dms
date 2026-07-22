@@ -2,7 +2,6 @@
 
 Internal data management system for **Oota.app**, built for Thorsignia. Enables the Operations Team to store, search, filter, update, and archive information about Annalakshmis (home-cooked meal providers).
 
-> **Status:** Backend and frontend complete. Final QA and polish in progress.
 
 ---
 
